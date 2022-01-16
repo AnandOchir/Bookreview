@@ -1,0 +1,108 @@
+@import './variables.scss';
+@import './flex.scss';
+
+@function pow($base, $exponent) {
+    $result: 1;
+    @for $_ from 1 through $exponent {
+        $result: $result * $base;
+    }
+    @return $result;
+}
+
+@each $color, $name in $colors {
+    .c-#{$name} {
+        color: $name;
+    }
+    .bc-#{$name} {
+        background-color: $name;
+    }
+}
+
+@for $i from 1 through 10 {
+    .w-#{$i} {
+        width: pow($i, 2);
+    }
+    .h-#{$i} {
+        height: pow($i, 2);
+    }
+    .p-#{$i} {
+        padding: pow($i, 2);
+    }
+    .p_ver-#{$i} {
+        padding-left: pow($i, 2);
+        padding-right: pow($i, 2);
+    }
+    .p_hor-#{$i} {
+        padding-top: pow($i, 2);
+        padding-bottom: pow($i, 2);
+    }
+    .pl-#{$i} {
+        padding-left: pow($i, 2);
+    }
+    .pr-#{$i} {
+        padding-left: pow($i, 2);
+    }
+    .pt-#{$i} {
+        padding-left: pow($i, 2);
+    }
+    .pb-#{$i} {
+        padding-left: pow($i, 2);
+    }
+    .ma-#{$i} {
+        margin: pow($i, 2);
+    }
+    .m_ver-#{$i} {
+        margin-left: pow($i, 2);
+        margin-right: pow($i, 2);
+    }
+    .m_hor-#{$i} {
+        margin-top: pow($i, 2);
+        margin-bottom: pow($i, 2);
+    }
+    .ml-#{$i} {
+        margin-left: pow($i, 2);
+    }
+    .mr-#{$i} {
+        margin-right: pow($i, 2);
+    }
+    .mt-#{$i} {
+        margin-top: pow($i, 2);
+    }
+    .mb-#{$i} {
+        margin-bottom: pow($i, 2);
+    }
+}
+
+@for $i from 1 through 100 {
+    .fs-#{$i} {
+        font-size: $i;
+    }
+    .ln-#{$i} {
+        line-height: $i;
+    }
+    .wp-#{$i} {
+        width: $i + '%';
+    }
+    .hp-#{$i} {
+        height: $i + '%';
+    }
+}
+
+body {
+    margin: 0;
+    background-color: #E5E5E5;
+    // padding-left: pow(5, 2);
+    // padding-right: pow(5, 2);
+}
+
+html, body {
+    height: 100%;
+}
+
+.top {
+    top: 0;
+}
+
+.bottom {
+    bottom: 0;
+}

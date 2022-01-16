@@ -1,7 +1,12 @@
 import React from 'react'
+import { Layout } from '../components';
 
 export const HomePage = () => {
-  return (
-    <div>Home</div>
-  );
+  return (<>
+  <div className='hp-100'>
+    <Layout>
+      
+    </Layout>
+  </div>
+  </>);
 }

@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "apollo-server": "^3.6.1",
+    "apollo-server-express": "^3.0.0",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.1",
+    "express": "^4.17.2",
+    "graphql": "^16.2.0",
+    "graphql-middleware": "^6.1.13",
+    "graphql-shield": "^7.5.0",
+    "graphql-tools": "^8.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.2.2",
+    "mongoose": "^6.1.4",
+    "nodemon": "^2.0.15"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "graphqlapi",
+  "version": "1.0.0",
+  "main": "schema.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

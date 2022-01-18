@@ -1,6 +1,14 @@
 const { gql } = require('apollo-server');
 
 module.exports = gql`
+  scalar Upload
+
+  type File {
+    filename: String
+    mimetype: String
+    encoding: String
+  }
+
   type Comment {
     _id:String
     body:String
@@ -44,7 +52,9 @@ module.exports = gql`
   }
 
   type Mutation {
-    addBook(title: String, author: String, body: String): BookReturnType
+    singleUpload(file: Upload!): File!
+
+    addBook(title: String, author: String, body: String, image: Upload): BookReturnType
 
     addComment(bookId: String, user: String, body: String): BookReturnType
 

@@ -8,6 +8,7 @@ import { HomePage, BookDetail, SignUpPage, LoginPage, ProfilePage } from './page
 import './styles/main.scss'
 import 'mdb-ui-kit';
 
+
 const App = () => {
   return (
     <BrowserRouter >

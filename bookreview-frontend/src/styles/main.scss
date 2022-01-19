@@ -10,7 +10,7 @@
     @return $result;
 }
 
-@each $color, $name in $colors {
+@each $name, $color in $colors {
     .c-#{$name} {
         color: $name;
     }

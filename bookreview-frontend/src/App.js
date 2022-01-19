@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import { HomePage, BookDetail, SignUpPage, LoginPage } from './pages';
 import './styles/main.scss'
+import "@fontsource/roboto";
 
 const App = () => {
   return (

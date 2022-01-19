@@ -5,6 +5,9 @@ import {
   Route
 } from "react-router-dom";
 import { HomePage, BookDetail, SignUpPage, LoginPage, ProfilePage } from './pages';
+import './styles/main.scss'
+import 'mdb-ui-kit';
+
 
 const App = () => {
   return (

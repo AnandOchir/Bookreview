@@ -41,7 +41,7 @@ export const LoginPage = () => {
         <input placeholder={'email'} value={email} onChange={(e) => setEmail(e.target.value)} />
         <input placeholder={'pass'} value={pass} onChange={(e) => setPass(e.target.value)} />
         
-        <button onClick={Login} >Login</button>
+        <button onClick={Login} >Login </button>
     </div>
   );
 }

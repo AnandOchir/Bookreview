@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Footer = () => {
     return (<>
-        <div className='flex flex-col justify-between navpad' style={{ height: 276, backgroundColor: '#391F00' }}>
+        <div className='flex flex-col justify-between navpad' style={{ height: 276, backgroundColor: '#391F00',position: 'sticky', bottom: 0, width: '100%', }}>
             <div className='flex flex-row justify-between' style={{ marginTop: 50}}>
                 <div className='flex flex-row'>
                     <div className='flex flex-col hp-100 justify-center' style={{ marginRight: 5 }}>
@@ -16,29 +16,6 @@ export const Footer = () => {
                             <line y1="0.5" x2="127" y2="0.5" stroke="black" strokeOpacity="0.31" fill='#fff' />
                         </svg>
                         <div className='flex c-text' style={{ color: '#fff' }}>Magazine</div>
-                    </div>
-                </div>
-                <div className='flex flex-row justify-center footerinfo'>
-                    <div className='flex flex-col info' style={{ marginRight: 50 }} >
-                        <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10, color: '#fff', marginTop: 10, fontSize: '18px' }}>Popular</div>
-                        <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10, color: '#fff', marginTop: 10 }}>Programming</div>
-                        <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10, color: '#fff', marginTop: 10 }}>Books for children</div>
-                        <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10, color: '#fff', marginTop: 10 }}>Psychology</div>
-                        <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10, color: '#fff', marginTop: 10 }}>Business</div>
-                    </div>
-                    <div className='flex flex-col info' style={{ marginRight: 50 }} >
-                        <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10, color: '#fff', marginTop: 10, fontSize: '18px' }}>Information</div>
-                        <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10, color: '#fff', marginTop: 10 }}>Delivery</div>
-                        <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10, color: '#fff', marginTop: 10 }}>About the store</div>
-                        <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10, color: '#fff', marginTop: 10 }}>Payment</div>
-                        <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10, color: '#fff', marginTop: 10 }}>Help</div>
-                    </div>
-                    <div className='flex flex-col' >
-                        <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10, color: '#fff', marginTop: 10, fontSize: '18px' }}>Stock</div>
-                        <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10, color: '#fff', marginTop: 10 }}>Contacts</div>
-                        <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10, color: '#fff', marginTop: 10 }}>Category</div>
-                        <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10, color: '#fff', marginTop: 10 }}>Purchase returns</div>
-                        <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10, color: '#fff', marginTop: 10 }}>Help for the buyer</div>
                     </div>
                 </div>
             </div>

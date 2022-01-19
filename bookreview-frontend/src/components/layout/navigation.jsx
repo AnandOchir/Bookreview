@@ -1,9 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { NavDropdown } from 'react-bootstrap'
 
 export const Nav = () => {
-
+    const navigate = useNavigate();
+    const Profile = () => {
+        navigate('/sign-up', { replace: true })
+    }
     return (<>
-        <div className='flex flex-row justify-between navpad' style={{ height: 80}}>
+        <div className='flex flex-row justify-between navpad' style={{ height: 80 }}>
             <div className='flex flex-row'>
                 <div className='flex flex-col justify-center' style={{ marginRight: 5 }}>
                     <svg width="42" height="33" viewBox="0 0 42 33" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,8 +27,26 @@ export const Nav = () => {
                 <div className='flex flex-row justify-between' >
                     <div className='flex flex-col justify-center info' style={{ fontSize: 12, marginRight: 10 }}>Stock</div>
                     <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10 }}>Catalogy</div>
-                    <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10 }}>About</div>
-                    <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10 }}>Delievery</div>
+                    <div className='flex flex-col justify-center' style={{ fontSize: 12 }}>About</div>
+                    {
+                        localStorage.getItem('user') ?
+                            <div className='flex flex-col justify-center'>
+                                <NavDropdown
+                                    className='dropdown'
+                                    style={{ fontSize: 12, paddingLeft: 0, paddingRight: 0 }}
+                                    id="nav-dropdown-dark-example"
+                                    title="Profile"
+                                >
+                                    <NavDropdown.Item href="#action/3.1">Name</NavDropdown.Item>
+                                    <NavDropdown.Item href="#action/3.2">Email</NavDropdown.Item>
+                                    <NavDropdown.Divider />
+                                    <NavDropdown.Item href="#action/3.4"><div style={{ color: 'red' }}>Log out</div></NavDropdown.Item>
+                                </NavDropdown>
+                            </div>
+                            :
+                            <div className='flex flex-col justify-center info' style={{ fontSize: 12, marginLeft: 10, marginRight: 10 }} onClick={() => Profile()}>sign up</div>
+                    }
+
                     <div className='flex flex-col justify-center info' style={{ fontSize: 12, marginRight: 10 }}>Vlog</div>
                 </div>
             </div>

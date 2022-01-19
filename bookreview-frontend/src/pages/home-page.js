@@ -57,12 +57,38 @@ export const HomePage = () => {
       to: myRef
     },
     {
+      // text: 'Some quick example text to build on the card title and make up the bulk of the card s content.',
+      // author: 'Dorjhand(Radnaagiin naiz ohin)',
+      // title: 'Book',
+      // src: 'https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(48).jpg',
+      // to: myRef
       text: 'Some quick example text to build on the card title and make up the bulk of the card s content.',
-      author: 'Dorjhand(Radnaagiin naiz ohin)',
+      author: 'Purevdorj',
       title: 'Book',
       src: 'https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(48).jpg',
       to: myRef
     },
+  ]
+
+  let authors = [
+    {
+      name: 'Radnaasuren',
+    },
+    {
+      name: 'Anand-ochir',
+    },
+    {
+      name: 'Tugsjargal',
+    },
+    {
+      name: 'Baldanpurev',
+    },
+    {
+      name: 'Purevdorj',
+    },
+    {
+      name: 'Dorjhand(Radnaagiin naiz ohin)',
+    }
   ]
 
   const executeScroll = () => myRef.current.scrollIntoView()
@@ -138,19 +164,6 @@ export const HomePage = () => {
       </div>
       <div className='flex justify-center' style={{ fontSize: 25, marginTop: 20 }}>Books</div>
       <Carousel props={books} />
-      {/* <div className='flex flex-col' style={{ paddingLeft: padding, paddingRight: padding }}>
-        <div className='flex flex-row justify-center' style={{ fontSize: 25, fontWeight: 900, marginBottom: 20 }}>
-          Category
-        </div>
-        <div className='flex flex-row justify-center' style={{ flexWrap: 'wrap', width: '100%', gap: '20px' }}>
-          {
-            books.map((book, index) => (
-              console.log(book.author),
-              <CateCard author={book.author} src={book.authorProfile}/>
-            ))
-          }
-        </div>
-      </div> */}
       <div className='flex flex-row justify-center' style={{ fontSize: 25, fontWeight: 900, marginBottom: 20 }}>
         Category
       </div>
@@ -163,9 +176,9 @@ export const HomePage = () => {
           <div class="carousel-inner" role="listbox">
             <div class="carousel-item active flex" style={{ width: '100%', flexWrap: 'wrap' }}>
               {
-                books.map((book, index) => (
-                  console.log(book.author),
-                  <CateCard author={book.author} src={book.authorProfile} from={executeScroll} />
+                authors.map((author, index) => (
+                  console.log(author.name),
+                  <CateCard author={author.name} src={author.picture} from={executeScroll} />
                 ))
               }
             </div>

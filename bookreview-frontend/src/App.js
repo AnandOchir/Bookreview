@@ -7,7 +7,7 @@ import {
 import { HomePage, BookDetail, SignUpPage, LoginPage } from './pages';
 import './styles/main.scss'
 import 'mdb-ui-kit';
-
+import "@fontsource/roboto";
 
 const App = () => {
   return (

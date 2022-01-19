@@ -1,5 +1,6 @@
 @import './variables.scss';
 @import './flex.scss';
+@import './components.scss';
 
 @function pow($base, $exponent) {
     $result: 1;
@@ -81,10 +82,10 @@
         line-height: $i;
     }
     .wp-#{$i} {
-        width: $i + '%';
+        width: pow($i, 2);
     }
     .hp-#{$i} {
-        height: $i + '%';
+        height: pow($i, 2);
     }
 }
 
@@ -93,10 +94,6 @@ body {
     background-color: #E5E5E5;
     // padding-left: pow(5, 2);
     // padding-right: pow(5, 2);
-}
-
-html, body {
-    height: 100%;
 }
 
 .top {

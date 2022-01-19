@@ -15,7 +15,7 @@ export const Input = ({ props }) => {
                         <input placeholder={placeHolder} />
                     </div>
                     <svg className='wp-100' height="1" viewBox="0 0 200 1" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <line y1="0.5" x2="200" y2="0.5" stroke="#696764" stroke-opacity="0.59" />
+                        <line y1="0.5" x2="200" y2="0.5" stroke="#696764" strokeOpacity="0.59" />
                     </svg>
                 </div>}
             {type === 'password' &&

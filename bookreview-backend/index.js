@@ -147,35 +147,6 @@ const resolvers = {
   },
 };
 
-// ...........
-
-// const isAuthenticated = rule({ cache: "contextual" })(
-//   async (parent, args, context, _info) => {
-//     const result = !!context.user;
-//     console.info(`isAuthenticated:${result}`);
-//     return result;
-//   }
-// );
-
-// const permisions = shield({
-//   Query: {
-//     books: deny,
-//     // privateResolver: and(isAuthenticated, isAdmin)
-//   },
-//   Mutation: {
-//     addBook: deny,
-//     addComment: deny
-//   },
-// });
-
-// const schema = applyMiddleware(
-//   makeExecutableSchema({
-//     typeDefs,
-//     resolvers,
-//   }),
-//   permisions
-// );
-
 const schema = makeExecutableSchema({typeDefs, resolvers})
 const schemaWithMiddleware = applyMiddleware(schema, permissions)
 
@@ -188,7 +159,6 @@ const server = new ApolloServer({
     if(token ){
       token = token.replace('Bearer ', '')
       return {
-        // mocking that there is no user currently in the context
         token
       };
     }
@@ -198,37 +168,3 @@ const server = new ApolloServer({
 server.listen().then(({ url }) => {
   console.log(`🚀 Server ready at ${url}`);
 });
-
-// const apolloServer = new ApolloServer({
-//   typeDefs,
-//   resolvers,
-//   context: ({ req, res }) => ({ req, res })
-// });
-
-// const start = async() => {
-//   await apolloServer.start();
-//   app.use(checkAuth);
-//   apolloServer.applyMiddleware({ app });
-// }
-
-// start();
-
-// app.listen({ port: 4000 }, () =>
-//   console.log(
-//     `🚀 Server ready at http://localhost:4000${apolloServer.graphqlPath}`
-//   )
-// );
-
-// app.listen({ url }, () =>
-//   console.log(`🚀 Server ready at ${url}`)
-// );
-
-// const server = new ApolloServer({
-//   typeDefs,
-//   resolvers,
-//   context: ({ req }) => ({ req })
-// });
-
-// server.listen().then(({ url }) => {
-//   console.log(`🚀  Server ready at ${url}`);
-// });

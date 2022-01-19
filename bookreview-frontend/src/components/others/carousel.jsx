@@ -44,7 +44,7 @@ export const Carousel = (images) => {
                 <div class="carousel-inner" role="listbox">
                     <div class="carousel-item active flex" style={{ width: '100%', flexWrap: 'wrap'}}>
                         {images.props.map((image, index) => (
-                            <Card src={image.src} text={image.text} title={image.title} key={index} author={image.author} to={images.to}/>
+                            <Card src={'https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(48).jpg'} text={image.text} title={image.title} key={index} author={image.author} to={null}/>
                         ))}
                     </div>
                 </div>

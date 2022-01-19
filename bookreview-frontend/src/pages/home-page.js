@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Layout } from '../components';
 import ReactCarousel, { AFTER, CENTER, BEFORE } from "react-carousel-animated";
 import "react-carousel-animated/dist/style.css";
 import { Carousel } from '../components/others/carousel';
 import { ScrollDemo } from '../components/others/scroll';
 import { CateCard } from '../components/others/catecard';
+import axios from 'axios'
 
 export const HomePage = () => {
-  const myRef = React.useRef(null)
+  const myRef = useRef(null);
+  const [books, setBooks] = useState(null)
   const images = [
     {
       src: 'https://cdn2.vectorstock.com/i/1000x1000/10/06/cover-design-brochure-with-connected-line-and-dots-vector-20631006.jpg',
@@ -19,51 +21,34 @@ export const HomePage = () => {
       src: 'https://cdn2.vectorstock.com/i/1000x1000/18/06/minimalist-book-cover-design-with-connected-vector-27631806.jpg',
     }
   ]
-  const books = [
-    {
-      text: 'Some quick example text to build on the card title and make up the bulk of the card s content.',
-      author: 'Radnaasuren',
-      title: 'Book',
-      src: 'https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(48).jpg',
-      to: myRef
-    },
-    {
-      text: 'Some quick example text to build on the card title and make up the bulk of the card s content.',
-      author: 'Anand-Ochir',
-      title: 'Book',
-      src: 'https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(48).jpg',
-      to: myRef
-    },
-    {
-      text: 'Some quick example text to build on the card title and make up the bulk of the card s content.',
-      author: 'Tugsjargal',
-      title: 'Book',
-      src: 'https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(48).jpg',
-      authorProfile: '../images/author1.jpg',
-      to: myRef
-    },
-    {
-      text: 'Some quick example text to build on the card title and make up the bulk of the card s content.',
-      author: 'Baldanpurev',
-      title: 'Book',
-      src: 'https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(48).jpg',
-      to: myRef
-    },
-    {
-      text: 'Some quick example text to build on the card title and make up the bulk of the card s content.',
-      author: 'Purevdorj',
-      title: 'Book',
-      src: 'https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(48).jpg',
-      to: myRef
-    },
-    {
-      text: 'Some quick example text to build on the card title and make up the bulk of the card s content.',
-      author: 'Dorjhand(Radnaagiin naiz ohin)',
-      title: 'Book',
-      src: 'https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(48).jpg',
-      to: myRef
-    },
-  ]
+
+  useEffect(() => {
+    axios.post('http://localhost:4000/', {
+      query: `query books {
+        books {
+            _id
+          title,
+          author,
+          body
+        }
+      }`
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((indx) => {
+      setBooks(indx.data.data.books)
+    })
+
+  }, [])
+
+  if (!books) {
+    return (
+      <div>Loading ...</div>
+    )
+  }
+
+  console.log('books: ', books)
 
   const executeScroll = () => myRef.current.scrollIntoView()
   return (<>

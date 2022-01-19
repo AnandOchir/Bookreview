@@ -4,10 +4,10 @@ import { Nav } from './navigation';
 
 export const Layout = ({ children }) => {
     return(<>
-        <Nav></Nav>
+        <Nav/>
         <div>{ children }</div>
         <div className='bottom'>
-            <Footer></Footer>
+            <Footer/>
         </div>
     </>)
 }

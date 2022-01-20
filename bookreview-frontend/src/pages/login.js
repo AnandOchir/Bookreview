@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from "react-router-dom";
 const image = require('../assets/image.jpg')
+
 export const LoginPage = () => {
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
     const [errorMessege, setErrorMessege] = useState('')
+    const navigate = useNavigate()
+
     const Login = async () => {
         const data = await axios.post('http://localhost:4000/', {
             query: `mutation login($email: String ,$password: String) {
@@ -28,6 +32,7 @@ export const LoginPage = () => {
         });
 
         if (data.data.data.login) {
+            navigate('/')
             console.log('login success: ', data)
             localStorage.setItem('user', JSON.stringify(data.data.data.login))
         } else {

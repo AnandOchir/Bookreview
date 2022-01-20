@@ -17,7 +17,20 @@ const UserModel = require("./models/user_schema");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const app = express();
+const fs = require('fs')
+
+const { storeFile } = require("./store-file");
+
+const makeid = () => {
+  var result = '';
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for (var i = 0; i < 19; i++) {
+    result += characters.charAt(Math.floor(Math.random() *
+      charactersLength));
+  }
+  return result;
+}
 
 mongoose.connect(
   "mongodb+srv://AnandOchir:123457@cluster0.mgbf9.mongodb.net/BooksCollection?retryWrites=true&w=majority",
@@ -34,6 +47,7 @@ connection.once("open", () => {
 });
 
 const resolvers = {
+
   // Query
   Query: {
     // ...query
@@ -42,16 +56,39 @@ const resolvers = {
   // Mutation
   Mutation: {
     // ...mutation
-    async addBook(_, params, context) {
-      // const user = checkAuth(context)
-      const book = new BookModel(params);
 
-      try {
-        await book.save();
-        return book;
-      } catch (error) {
-        return error;
-      }
+    async addBook(_, params, context) {
+      const authorId = makeid();
+      console.log('aa')
+      const book = new BookModel({
+        authorId,
+        ...params
+      });
+      console.log('book: ', book)
+      console.log('params: ', params)
+      const bookBase64Data = book.image.replace(/^data:image\/png;base64,/, "");
+      const authorBase64Data = book.authorImage.replace(/^data:image\/png;base64,/, "");
+
+      fs.writeFile(`./images/book-images/book-${book.id}.jpeg`, bookBase64Data, 'base64', function (err) {
+        if (err) {
+          return console.log(err);
+        }
+        console.log("The Book file was saved!");
+      });
+
+      fs.writeFile(`./images/author-images/author-${authorId}.jpeg`, authorBase64Data, 'base64', function (err) {
+        if (err) {
+          return console.log(err);
+        }
+        console.log("The Author file was saved!");
+      });
+
+      // try {
+      //   await book.save();
+      //   return book;
+      // } catch (error) {
+      //   return error;
+      // }
     },
     async addComment(_, { bookId, ...params }, context) {
       // const user = checkAuth(context)
@@ -147,16 +184,17 @@ const resolvers = {
   },
 };
 
-const schema = makeExecutableSchema({typeDefs, resolvers})
+const schema = makeExecutableSchema({ typeDefs, resolvers })
 const schemaWithMiddleware = applyMiddleware(schema, permissions)
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  uploads: false,
   schemaWithMiddleware,
   context: (ctx) => {
     let token = ctx.req.headers.authorization
-    if(token ){
+    if (token) {
       token = token.replace('Bearer ', '')
       return {
         token

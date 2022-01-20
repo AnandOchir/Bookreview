@@ -5,6 +5,9 @@ import {
   Route
 } from "react-router-dom";
 import { HomePage, BookDetail, SignUpPage, LoginPage, AdminPage } from './pages';
+import './styles/main.scss'
+import 'mdb-ui-kit';
+import "@fontsource/roboto";
 
 const App = () => {
   return (

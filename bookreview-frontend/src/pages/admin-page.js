@@ -18,84 +18,43 @@ export const AdminPage = () => {
         console.log('setImageSrc: ', URL.createObjectURL(inputFile.current.files[0]))
     }
 
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
     const addBook = async () => {
-        // const data = new FormData();
-        // data.append('name', 'Image Upload');
-        // data.append('file_attachment', file);
-        // const data = await axios.post('http://localhost:4000/', {
-        //     query: `mutation addBook($title: String, $author: String, $body: String, $image: Upload) {
-        //         addBook(title:$title, author:$author, body:$body, image:$image) {
-        //             filename
-        //             mimetype
-        //             encoding
-        //         }
-        //     }`,
-        //     variables: {
-        //         title: title,
-        //         author: author,
-        //         body: body,
-        //         image: file
-        //     }
-        // }, {
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     }
-        // });
-
-        const data = await axios.post('http://localhost:4000/', {
-            query: `mutation singleUpload($file: Upload) {
-                singleUpload(file:$file) {
-                    filename
-                    mimetype
-                    encoding
-                }
-            }`,
-            variables: {
-                file: file
-            }
-        }, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-        // axios.post('uploadfile', formData, {
-        //     headers: {
-        //       'Content-Type': 'multipart/form-data'
-        //     }
-        // })
-
-        console.log('data: ', data)
-    }
-
-    let uploadImage = async () => {
         if (file != '') {
-            let operations = `{ "query": "mutation ($file: Upload!) { singleUpload(file: $file) { filename } }", "variables": { "file": null } }`            
-            const data = new FormData();
-            data.append("operations", operations)
-            const map = `{"0": ["variables.file"]}`
-            data.append("map", map)
-            data.append("0", file)
+            const convertedFile = await toBase64(file);
 
-            console.log('file: ', file)
+            // console.log(convertedFile)
 
-            // const res = await axios.post('http://localhost:4000/', data, {
-            //     headers: {
-            //         'Content-Type': 'text/plain',
-            //     }
-            // }).catch((err) => {
-            //     console.log('err: ', err)
-            // })
-            
-            const res = fetch('http://localhost:4000/', {
-                body: data,
-                method: 'post'
-            }).catch((err) => {
-                console.log('err: ', err)
-            })
+            const data = await axios.post('http://localhost:4000/', {
+                query: `mutation addBook($title: String, $author: String, $body: String, $image: String) {
+                    addBook(title:$title, author:$author, body:$body, image: $image) {
+                        data
+                        responseStatus
+                    }
+                }`,
+                variables: {
+                    title: title,
+                    author: author,
+                    body: body,
+                    image: convertedFile
+                }
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            console.log('data: ', data)
         } else {
             alert('Please Select File first');
         }
-    };
+    }
 
     return (
         <div>
@@ -106,8 +65,8 @@ export const AdminPage = () => {
                 <input value={body} placeholder={'body'} onChange={(e) => setBody(e.target.value)} />
                 <input onChange={() => onFileChange(0)} type='file' id='file' ref={inputFile} />
             </div>
-            <img src={imageSrc} style={{width: '200px', height: '200px'}} />
-            <button onClick={uploadImage} >AddBook</button>
+            <img src={imageSrc} style={{ width: '200px', height: '200px' }} />
+            <button onClick={addBook} >AddBook</button>
         </div>
     );
 }

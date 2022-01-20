@@ -8,6 +8,7 @@ import { HomePage, BookDetail, SignUpPage, LoginPage, AdminPage } from './pages'
 import './styles/main.scss'
 import 'mdb-ui-kit';
 import "@fontsource/roboto";
+import { Layout } from '../src/components';
 
 const App = () => {
   return (

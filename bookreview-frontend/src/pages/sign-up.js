@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+const image = require('../assets/image.jpg')
 
 export const SignUpPage = () => {
-  const [email, setEmail] = useState('')
-  const [username, setUsername] = useState('')
-  const [pass, setPass] = useState('')
+      const [email, setEmail] = useState('')
+      const [username, setUsername] = useState('')
+      const [pass, setPass] = useState('')
+      const [errorMessege, setErrorMessege] = useState('')
 
-  const SignUp = async () => {
-     const data = await axios.post('http://localhost:4000/', {
-        query: `mutation addUser($username: String, $email: String ,$password: String) {
+      const SignUp = async () => {
+            const data = await axios.post('http://localhost:4000/', {
+                  query: `mutation addUser($username: String, $email: String ,$password: String) {
             addUser(username:$username, email:$email, password:$password) {
                 _id
                 username
@@ -18,34 +20,51 @@ export const SignUpPage = () => {
                 type
             }
         }`,
-        variables: {
-            username: username,
-            email: email,
-            password: pass
-        }
-    }, {
-        headers: {
-        'Content-Type': 'application/json'
-        }
-    });
+                  variables: {
+                        username: username,
+                        email: email,
+                        password: pass
+                  }
+            }, {
+                  headers: {
+                        'Content-Type': 'application/json'
+                  }
+            });
 
-    if(data.data.data.addUser) {
-        console.log('signup success: ', data)
-        localStorage.setItem('user', JSON.stringify(data.data.data.addUser))
-    } else {
-        console.log('err: ', data)
-    }
-  }
+            if (data.data.data.addUser) {
+                  console.log('signup success: ', data)
+                  localStorage.setItem('user', JSON.stringify(data.data.data.addUser))
+            } else {
+                  console.log('err: ', data)
+            }
+      }
 
 
-  return (
-    <div>
-        <h1>SignUp</h1>
-        <input placeholder={'username'} value={username} onChange={(e) => setUsername(e.target.value)} />
-        <input placeholder={'email'} value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input placeholder={'pass'} value={pass} onChange={(e) => setPass(e.target.value)} />
-        
-        <button onClick={SignUp} >SignUp</button>
-    </div>
-  );
+      return (
+            <div className='flex full-screen'>
+                  <div className='full-height Sigin-Image flex-center' >
+                        <img src={image} />
+                  </div >
+                  <div className='flex align-center justify-center Signin-background' >
+                        <div className='inner-width '>
+                              <div className='mb-1 '>Welcome to Book Review</div>
+                              <div className='Roboto mb-3 fs-30'>Signup to your account</div>
+                              <div className='mb-3'>Username</div>
+                              <div className='Sigin-container mb-3'>
+                                    <input className='Sigin-input ' placeholder={'John'} value={email} onChange={(e) => setUsername(e.target.value)} />
+                              </div>
+                              <div className='mb-3'>Email</div>
+                              <div className='Sigin-container mb-3'>
+                                    <input className='Sigin-input ' placeholder={'John.snow@gmail.com'} value={email} onChange={(e) => setEmail(e.target.value)} />
+                              </div>
+                              <div className='mb-3'>Password</div>
+                              <div className='Sigin-container mb-4'>
+                                    <input className='Sigin-input' placeholder={'*******'} value={pass} type='password' onChange={(e) => setPass(e.target.value)} />
+                              </div>
+                              <div className='mb-4'>{errorMessege}</div>
+                              <button onClick={SignUp} className='Sigin-Button fs-24' >Signup Now free </button>
+                        </div>
+                  </div>
+            </div>
+      );
 }

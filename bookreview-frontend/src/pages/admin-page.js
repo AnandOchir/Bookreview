@@ -1,14 +1,15 @@
 import React, { useState, useRef } from 'react'
 import axios from 'axios'
-import FormData from 'form-data'
 
 export const AdminPage = () => {
-    const [title, setTitle] = useState('a')
-    const [author, setAuthor] = useState('a')
-    const [body, setBody] = useState('a')
+    const [title, setTitle] = useState('image test 1')
+    const [author, setAuthor] = useState('image test 1')
+    const [body, setBody] = useState('image test 1')
     const [file, setFile] = useState('');
+    const [authorFile, setAuthorFile] = useState('');
     const [imageSrc, setImageSrc] = useState('');
-    const inputFile = useRef(null);
+    const [authorImageSrc, setAuthorImageSrc] = useState('');
+    const inputFile = useRef(null), authorInputFile = useRef(null);
 
 
     const onFileChange = () => {
@@ -16,6 +17,12 @@ export const AdminPage = () => {
         setImageSrc(URL.createObjectURL(inputFile.current.files[0]))
         console.log('setFile: ', inputFile.current.files[0])
         console.log('setImageSrc: ', URL.createObjectURL(inputFile.current.files[0]))
+    }
+    const onAuthFileChange = () => {
+        setAuthorFile(authorInputFile.current.files[0]);
+        setAuthorImageSrc(URL.createObjectURL(authorInputFile.current.files[0]))
+        console.log('setAuthFile: ', authorInputFile.current.files[0])
+        console.log('setAuthImageSrc: ', URL.createObjectURL(authorInputFile.current.files[0]))
     }
 
     const toBase64 = file => new Promise((resolve, reject) => {
@@ -25,15 +32,46 @@ export const AdminPage = () => {
         reader.onerror = error => reject(error);
     });
 
+    const checkType = async file => {
+        const convertedFile = await toBase64(file);
+        const isImage = convertedFile.split('data:image/')[1]
+
+        const extensionType = ['jpeg', 'jpg', 'png'];
+
+        if(isImage) {
+            const type = isImage.split(';')[0]
+            extensionType.map((etype) => {
+                if(etype != type) {
+                    return false;
+                }
+            })
+            console.log('type: ', type)
+            return {
+                iType: type,
+                file: convertedFile
+            };          
+        } else {
+            console.log('its not image ')
+            return false;
+        }
+    }
+
     const addBook = async () => {
         if (file != '') {
-            const convertedFile = await toBase64(file);
+            const convertedBookFile = await checkType(file);
+            const convertedAuthorFile = await checkType(authorFile);
 
-            // console.log(convertedFile)
+            if(!convertedAuthorFile || !convertedBookFile) {
+                alert('file not valid')
+                return false
+            }
+
+            console.log('aa: ', convertedBookFile)
+            console.log('author: ', convertedAuthorFile)
 
             const data = await axios.post('http://localhost:4000/', {
-                query: `mutation addBook($title: String, $author: String, $body: String, $image: String) {
-                    addBook(title:$title, author:$author, body:$body, image: $image) {
+                query: `mutation addBook($title: String, $author: String, $body: String, $image: imageInputType, $authorImage: imageInputType) {
+                    addBook(title:$title, author:$author, body:$body, image: $image, authorImage: $authorImage) {
                         data
                         responseStatus
                     }
@@ -42,7 +80,8 @@ export const AdminPage = () => {
                     title: title,
                     author: author,
                     body: body,
-                    image: convertedFile
+                    image: convertedBookFile,
+                    authorImage: convertedAuthorFile
                 }
             }, {
                 headers: {
@@ -63,9 +102,15 @@ export const AdminPage = () => {
                 <input value={title} placeholder={'title'} onChange={(e) => setTitle(e.target.value)} />
                 <input value={author} placeholder={'author'} onChange={(e) => setAuthor(e.target.value)} />
                 <input value={body} placeholder={'body'} onChange={(e) => setBody(e.target.value)} />
+
+                <h1>author</h1>
+                <input onChange={() => onAuthFileChange(0)} type='file' id='file' ref={authorInputFile} />
+                <img src={authorImageSrc} style={{ width: '200px', height: '200px' }} />
+
+                <h1>book</h1>
                 <input onChange={() => onFileChange(0)} type='file' id='file' ref={inputFile} />
+                <img src={imageSrc} style={{ width: '200px', height: '200px' }} />
             </div>
-            <img src={imageSrc} style={{ width: '200px', height: '200px' }} />
             <button onClick={addBook} >AddBook</button>
         </div>
     );

@@ -5,9 +5,9 @@ import { Nav } from './navigation';
 export const Layout = ({ children }) => {
     return(<>
         <Nav/>
-        <div>{ children }</div>
-        <div className='bottom'>
+        <div id='laout root'>{ children }</div>
+        {/* <div className='bottom'>
             <Footer/>
-        </div>
+        </div> */}
     </>)
 }

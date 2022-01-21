@@ -5,7 +5,10 @@ const { Schema } = mongoose;
 const BookSchema = new Schema({
   title:  String,
   author: String,
+  authorImage: String,
+  authorId: String,
   body:   String,
+  image:  String,
   // comments: [{ body: String }],
   date: { type: Date, default: Date.now }
 });

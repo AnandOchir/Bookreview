@@ -4,9 +4,17 @@ import { NavDropdown } from 'react-bootstrap'
 
 export const Nav = () => {
     const navigate = useNavigate();
-    const Profile = () => {
+    const Signup = () => {
         navigate('/sign-up', { replace: true })
     }
+    const Login = () => {
+        navigate('/login', { replace: true })
+    }
+    const logOut = () => {
+        localStorage.setItem('user', null);
+        console.log('wuahaha ', localStorage.getItem('user'));
+    }
+    console.log('wuahaha 2', localStorage.getItem('user'));
     return (<>
         <div className='flex flex-row justify-between navpad' style={{ height: 80 }}>
             <div className='flex flex-row'>
@@ -29,7 +37,7 @@ export const Nav = () => {
                     <div className='flex flex-col justify-center' style={{ fontSize: 12, marginRight: 10 }}>Catalogy</div>
                     <div className='flex flex-col justify-center' style={{ fontSize: 12 }}>About</div>
                     {
-                        localStorage.getItem('user') ?
+                        localStorage.getItem('user') != 'null' ?
                             <div className='flex flex-col justify-center'>
                                 <NavDropdown
                                     className='dropdown'
@@ -40,11 +48,14 @@ export const Nav = () => {
                                     <NavDropdown.Item href="#action/3.1">Name</NavDropdown.Item>
                                     <NavDropdown.Item href="#action/3.2">Email</NavDropdown.Item>
                                     <NavDropdown.Divider />
-                                    <NavDropdown.Item href="#action/3.4"><div style={{ color: 'red' }}>Log out</div></NavDropdown.Item>
+                                    <NavDropdown.Item onClick={logOut} href="#action/3.4"><div style={{ color: 'red' }}>Log out</div></NavDropdown.Item>
                                 </NavDropdown>
                             </div>
                             :
-                            <div className='flex flex-col justify-center info' style={{ fontSize: 12, marginLeft: 10, marginRight: 10 }} onClick={() => Profile()}>sign up</div>
+                            <div className='flex flex-row'>
+                                <div className='flex flex-col justify-center info' style={{ fontSize: 12, marginLeft: 10, marginRight: 10 }} onClick={() => Signup()}>sign up</div>
+                                <div className='flex flex-col justify-center info' style={{ fontSize: 12, marginLeft: 10, marginRight: 10 }} onClick={() => Login()}>login</div>
+                            </div>
                     }
 
                     <div className='flex flex-col justify-center info' style={{ fontSize: 12, marginRight: 10 }}>Vlog</div>

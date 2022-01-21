@@ -5,6 +5,7 @@ import "react-carousel-animated/dist/style.css";
 import { Carousel } from '../components/others/carousel';
 import { ScrollDemo } from '../components/others/scroll';
 import { CateCard } from '../components/others/catecard';
+import Loading from '../images/loading.gif'
 import axios from 'axios'
 
 export const HomePage = () => {
@@ -29,9 +30,9 @@ export const HomePage = () => {
   const unique = (data) => {
     let uniqueArr = []
     data.forEach((c) => {
-        if (!uniqueArr.includes(c.author)) {
-          uniqueArr.push(c.author);
-        }
+      if (!uniqueArr.includes(c.author)) {
+        uniqueArr.push(c.author);
+      }
     });
 
     return uniqueArr;
@@ -60,10 +61,10 @@ export const HomePage = () => {
   }, [])
 
   useEffect(() => {
-    if(allBooks) {
+    if (allBooks) {
       console.log('book: ', bookSearchValue)
       setBooks(allBooks.filter((e) => {
-        if(e.title.split(bookSearchValue).length > 1) {
+        if (e.title.split(bookSearchValue).length > 1) {
           return true;
         }
       }))
@@ -72,10 +73,10 @@ export const HomePage = () => {
   }, [bookSearchValue])
 
   useEffect(() => {
-    if(allBooks) {
+    if (allBooks) {
       console.log('author: ', authorSearchValue)
       setBooks(allBooks.filter((e) => {
-        if(e.author.split(authorSearchValue).length > 1) {
+        if (e.author.split(authorSearchValue).length > 1) {
           return true;
         }
       }))
@@ -85,7 +86,9 @@ export const HomePage = () => {
 
   if (!books || !allBooks) {
     return (
-      <div>Loading ...</div>
+      <div className='flex justify-center items-center'>
+        <img src={Loading} />
+      </div>
     )
   }
 
@@ -96,7 +99,7 @@ export const HomePage = () => {
   const executeScroll = (author) => {
     setAuthorSearchValue(author)
     setBooks(allBooks.filter((e) => {
-      if(e.author == author) {
+      if (e.author == author) {
         return true;
       }
     }))

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from "react-router-dom";
 const image = require('../assets/image.jpg')
 
 export const SignUpPage = () => {
@@ -7,6 +8,7 @@ export const SignUpPage = () => {
       const [username, setUsername] = useState('')
       const [pass, setPass] = useState('')
       const [errorMessege, setErrorMessege] = useState('')
+      const navigate = useNavigate()
 
       const SignUp = async () => {
             const data = await axios.post('http://localhost:4000/', {
@@ -32,6 +34,7 @@ export const SignUpPage = () => {
             });
 
             if (data.data.data.addUser) {
+                  navigate('/')
                   console.log('signup success: ', data)
                   localStorage.setItem('user', JSON.stringify(data.data.data.addUser))
             } else {
@@ -42,7 +45,7 @@ export const SignUpPage = () => {
 
       return (
             <div className='flex full-screen'>
-                  <div className='full-height Sigin-Image flex-center' >
+                  <div className='full-height Signin-Image flex-center' >
                         <img src={image} />
                   </div >
                   <div className='flex align-center justify-center Signin-background' >
@@ -50,19 +53,19 @@ export const SignUpPage = () => {
                               <div className='mb-1 '>Welcome to Book Review</div>
                               <div className='Roboto mb-3 fs-30'>Signup to your account</div>
                               <div className='mb-3'>Username</div>
-                              <div className='Sigin-container mb-3'>
-                                    <input className='Sigin-input ' placeholder={'John'} value={email} onChange={(e) => setUsername(e.target.value)} />
+                              <div className='Signin-container mb-3'>
+                                    <input className='Signin-input ' placeholder={'John'} value={email} onChange={(e) => setUsername(e.target.value)} />
                               </div>
                               <div className='mb-3'>Email</div>
-                              <div className='Sigin-container mb-3'>
-                                    <input className='Sigin-input ' placeholder={'John.snow@gmail.com'} value={email} onChange={(e) => setEmail(e.target.value)} />
+                              <div className='Signin-container mb-3'>
+                                    <input className='Signin-input ' placeholder={'John.snow@gmail.com'} value={email} onChange={(e) => setEmail(e.target.value)} />
                               </div>
                               <div className='mb-3'>Password</div>
-                              <div className='Sigin-container mb-4'>
-                                    <input className='Sigin-input' placeholder={'*******'} value={pass} type='password' onChange={(e) => setPass(e.target.value)} />
+                              <div className='Signin-container mb-4'>
+                                    <input className='Signin-input' placeholder={'*******'} value={pass} type='password' onChange={(e) => setPass(e.target.value)} />
                               </div>
                               <div className='mb-4'>{errorMessege}</div>
-                              <button onClick={SignUp} className='Sigin-Button fs-24' >Signup Now free </button>
+                              <button onClick={SignUp} className='Signin-Button fs-24' >Signup Now free </button>
                         </div>
                   </div>
             </div>

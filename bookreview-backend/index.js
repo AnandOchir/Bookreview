@@ -17,7 +17,10 @@ const UserModel = require("./models/user_schema");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const app = express();
+const {
+  GraphQLUpload,
+} = require('graphql-upload');
+const { storeFile } = require("./store-file");
 
 mongoose.connect(
   "mongodb+srv://AnandOchir:123457@cluster0.mgbf9.mongodb.net/BooksCollection?retryWrites=true&w=majority",
@@ -34,6 +37,8 @@ connection.once("open", () => {
 });
 
 const resolvers = {
+  Upload: GraphQLUpload,
+
   // Query
   Query: {
     // ...query
@@ -42,7 +47,23 @@ const resolvers = {
   // Mutation
   Mutation: {
     // ...mutation
+    singleUpload: async (_, { file }) => {
+      console.log('back file: ', file)
+
+      const fileId = await storeFile(file).then(result => result);
+      // return true;
+
+      return { 
+        filename: "filename", 
+        // mimetype: "mimetype",
+        // encoding: "encoding"
+      };
+    },
+
+
+
     async addBook(_, params, context) {
+      console.log('aaa: ', params)
       // const user = checkAuth(context)
       const book = new BookModel(params);
 
@@ -153,6 +174,7 @@ const schemaWithMiddleware = applyMiddleware(schema, permissions)
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  uploads: false,
   schemaWithMiddleware,
   context: (ctx) => {
     let token = ctx.req.headers.authorization

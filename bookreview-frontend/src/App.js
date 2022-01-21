@@ -14,11 +14,29 @@ const App = () => {
   return (
     <BrowserRouter >
       <Routes>
-        <Route path="/book-detail" element={<BookDetail />} />
-        <Route path="/admin" element={<AdminPage />} />
+        <Route
+          path="/book-detail"
+          element={(
+            <Layout>
+              <BookDetail />
+            </Layout>
+          )} />
+        <Route
+          path="/admin"
+          element={(
+            <Layout>
+              <AdminPage />
+            </Layout>
+          )} />
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/"
+          element={(
+            <Layout>
+              <HomePage />
+            </Layout>
+          )} />
       </Routes>
     </BrowserRouter>
   );

@@ -68,11 +68,10 @@ export const AdminPage = () => {
     }
 
     return (
-        <div>
+        <div className='flex justify-center'>
+            <div className='flex flex-col'>
             <div>Addbook</div>
-            <div>
-                <input value={title} placeholder={'title'} onChange={(e) => setTitle(e.target.value)} />
-                <input value={author} placeholder={'author'} onChange={(e) => setAuthor(e.target.value)} />
+            <div>            
                 <input value={body} placeholder={'body'} onChange={(e) => setBody(e.target.value)} />
 
                 <h1>author</h1>
@@ -84,6 +83,7 @@ export const AdminPage = () => {
                 <img src={imageSrc} style={{ width: '200px', height: '200px' }} />
             </div>
             <button onClick={addBook} >AddBook</button>
+            </div>
         </div>
     );
 }

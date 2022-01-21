@@ -46,28 +46,26 @@ export const BookDetail = () => {
     )
   }
   return (
-    <Layout>
-      <div className='full-screen'>
-        <div className='Dynamic-Column'>
-          <div className='Book-review-image-container flex-center mt-5'>
-            <img src={Book.image} className='Book-review-image' />
-          </div>
-          <div className='Book-review-detail pa-5 mb-3' >
-            <div className='fs-36 mb-3'>{Book.title}</div>
-            <div className='fs-24 mb-3'>
-              Author:<a href={`http://localhost:3000/auth=${Book.author}`}>{Book.author}</a>
-            </div>
-            <div className='fs-16' style={{ width: '80%' }}>
-              <div className='line mb-3' />
-              {Book.body}
-            </div>
-          </div>
+    <div className='full-screen'>
+      <div className='Dynamic-Column'>
+        <div className='Book-review-image-container flex-center mt-5'>
+          <img src={Book.image} className='Book-review-image' />
         </div>
-        <div className='Comments-box pa-5'>
-          <div className='line mb-3' style={{ width: '95%' }} />
-          COMMENTS:{Comments.map((comment) => CommentCard(comment))}
+        <div className='Book-review-detail pa-5 mb-3' >
+          <div className='fs-36 mb-3'>{Book.title}</div>
+          <div className='fs-24 mb-3'>
+            Author:<a href={`http://localhost:3000/auth=${Book.author}`}>{Book.author}</a>
+          </div>
+          <div className='fs-16' style={{ width: '80%' }}>
+            <div className='line mb-3' />
+            {Book.body}
+          </div>
         </div>
       </div>
-    </Layout>
+      <div className='Comments-box pa-5'>
+        <div className='line mb-3' style={{ width: '95%' }} />
+        COMMENTS:{Comments.map((comment) => CommentCard(comment))}
+      </div>
+    </div>
   );
 }

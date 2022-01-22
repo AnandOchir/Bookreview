@@ -1,7 +1,9 @@
 import React from 'react';
 import { Card } from './card';
 
-export const Carousel = (images) => {
+export const Carousel = (props) => {
+    const data = props.props
+    console.log('images: ', data)
     return (<>
         <link
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
@@ -43,8 +45,8 @@ export const Carousel = (images) => {
                 </ol>
                 <div class="carousel-inner" role="listbox">
                     <div class="carousel-item active flex" style={{ width: '100%', flexWrap: 'wrap'}}>
-                        {images.props.map((image, index) => (
-                            <Card src={'https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(48).jpg'} text={image.text} title={image.title} key={index} author={image.author} to={null}/>
+                        {data.map((book, index) => (
+                            <Card src={`/images/book-images/book-${book._id}.${book.bookImageType}`} text={book.body} title={book.title} key={index} author={book.author} to={null}/>
                         ))}
                     </div>
                 </div>

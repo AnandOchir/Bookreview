@@ -1,12 +1,10 @@
 import React, { useState, useRef } from 'react'
 import axios from 'axios'
-import FormData from 'form-data'
 
 export const AdminPage = () => {
-    const [title, setTitle] = useState('a')
-    const [author, setAuthor] = useState('a')
-    const [body, setBody] = useState('a')
-    const [authorImage, setAuthorImage] = useState('')
+    const [title, setTitle] = useState('image test 1')
+    const [author, setAuthor] = useState('image test 1')
+    const [body, setBody] = useState('image test 1')
     const [file, setFile] = useState('');
     const [authorFile, setAuthorFile] = useState('');
     const [imageSrc, setImageSrc] = useState('');
@@ -34,15 +32,45 @@ export const AdminPage = () => {
         reader.onerror = error => reject(error);
     });
 
+    const checkType = async file => {
+        const convertedFile = await toBase64(file);
+        const isImage = convertedFile.split('data:image/')[1]
+
+        const extensionType = ['jpeg', 'jpg', 'png'];
+
+        if(isImage) {
+            const type = isImage.split(';')[0]
+            extensionType.map((etype) => {
+                if(etype != type) {
+                    return false;
+                }
+            })
+            console.log('type: ', type)
+            return {
+                iType: type,
+                file: convertedFile
+            };          
+        } else {
+            console.log('its not image ')
+            return false;
+        }
+    }
+
     const addBook = async () => {
         if (file != '') {
-            const convertedBookFile = await toBase64(file);
-            const convertedAuthorFile = await toBase64(authorFile);
+            const convertedBookFile = await checkType(file);
+            const convertedAuthorFile = await checkType(authorFile);
 
+            if(!convertedAuthorFile || !convertedBookFile) {
+                alert('file not valid')
+                return false
+            }
+
+            console.log('aa: ', convertedBookFile)
             console.log('author: ', convertedAuthorFile)
 
             const data = await axios.post('http://localhost:4000/', {
-                query: `mutation addBook($title: String, $author: String, $body: String, $image: String, $authorImage: String) {
+                query: `mutation addBook($title: String, $author: String, $body: String, $image: imageInputType, $authorImage: imageInputType) {
                     addBook(title:$title, author:$author, body:$body, image: $image, authorImage: $authorImage) {
                         data
                         responseStatus

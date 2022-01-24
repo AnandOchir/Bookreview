@@ -42,25 +42,25 @@ export const LoginPage = () => {
 
     return (
         <div className='flex full-screen'>
-            <div className='full-height Sigin-Image flex-center' >
-                <img src={image} />
-            </div >
-            <div className='flex-center Signin-background' >
-                <div className='inner-width '>
+        <div className='full-height Signin-Image flex-center' >
+              <img src={image} />
+        </div >
+        <div className='flex align-center justify-center Signin-background' >
+              <div className='inner-width '>
                     <div className='mb-1 '>Welcome back</div>
                     <div className='Roboto mb-3 fs-30'>Login to your account</div>
                     <div className='mb-3'>Email</div>
-                    <div className='Sigin-container mb-3'>
-                        <input className='Sigin-input ' placeholder={'John.snow@gmail.com'} value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <div className='Signin-container mb-3'>
+                          <input className='Signin-input ' placeholder={'John.snow@gmail.com'} value={email} onChange={(e) => setEmail(e.target.value)} />
                     </div>
                     <div className='mb-3'>Password</div>
-                    <div className='Sigin-container mb-4'>
-                        <input className='Sigin-input' placeholder={'*******'} value={pass} type='password' onChange={(e) => setPass(e.target.value)} />
+                    <div className='Signin-container mb-4'>
+                          <input className='Signin-input' placeholder={'*******'} value={pass} type='password' onChange={(e) => setPass(e.target.value)} />
                     </div>
-                    <div className='mb-4 c-error'>{errorMessege}</div>
-                    <button onClick={Login} className='Sigin-Button fs-24'>Login Now </button>
-                </div>
-            </div>
+                    <div className='mb-4'>{errorMessege}</div>
+                    <button onClick={Login} className='Signin-Button fs-24' >Login Now free </button>
+              </div>
         </div>
+  </div>
     );
 }

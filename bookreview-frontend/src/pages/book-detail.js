@@ -10,6 +10,7 @@ export const BookDetail = () => {
   const navigate = useNavigate()
   const image ="https://scontent.xx.fbcdn.net/v/t1.15752-9/270022958_657710078752558_1089418706817314221_n.png?_nc_cat=105&ccb=1-5&_nc_sid=aee45a&_nc_eui2=AeHRR52oIecQTw3DKjoWxt6tZAQcK1unQ0tkBBwrW6dDS6iir0PWGkyuXQiFyus8X-601ynvxLAWSb_vzqbuUvYu&_nc_ohc=r23lukbsjhYAX-BSIcf&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVK6BCEis73NlpU5PtlCFE2C58J2A7d9ILKjtUWEfkgvSg&oe=620C9E48";
 
+  
   const CommentCard = (comment,index) => {
     const day = Date(comment.date)
     return (

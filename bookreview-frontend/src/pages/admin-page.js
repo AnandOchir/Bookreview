@@ -124,13 +124,13 @@ export const AdminPage = () => {
             }
         }
     }
-    if(!user || user.type != "admin") {
-        return (
-            <div>
-                <h1>You need to login admin user</h1>
-            </div>
-        )
-    }
+    // if(!user || user.type != "admin") {
+    //     return (
+    //         <div>
+    //             <h1>You need to login admin user</h1>
+    //         </div>
+    //     )
+    // }
 
     return (
         <div>

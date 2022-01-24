@@ -9,7 +9,7 @@ export const Card = ({ src, author, title, text, to, Book}) => {
                     src={src} alt="Card image cap" />
                 <div class="card-body">
                     <h4 class="card-title">{title}</h4>
-                    <p class="card-text">{text}</p>
+                    <p class="card-text">{text.slice(0,250)}{text.length > 250 && ' ...'}</p>
                     <p class="card-text">author: {author}</p>
                     <a class="btn btn-primary" onClick={()=>{navigate('book-detail',{state:Book})}}>More</a>
                 </div>

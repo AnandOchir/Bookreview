@@ -93,7 +93,7 @@ export const BookDetail = () => {
             />
           </div>
           <div className="Book-review-detail pa-5 mb-3">
-            <div className="Book-detail-container justify-between mb-5" style={{ width: "80%" }}>
+            <div className="Book-detail-container justify-between mb-5" style={{ width: "90%" }}>
               <div>
                 <div className="fs-36 mb-3">Book:{state.title}</div>
                 <div className="fs-24 mb-3">
@@ -112,7 +112,7 @@ export const BookDetail = () => {
                 className="Book-author-image"
               />
             </div>
-            <div className="fs-16" style={{ width: "80%" }}>
+            <div className="fs-16" style={{ width: "90%" }}>
               <div className="line mb-3" />
               {state.body}
             </div>

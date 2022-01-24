@@ -52,49 +52,58 @@ const resolvers = {
   Query: {
     // ...query
     books: async () => await BookModel.find().populate("comments"),
+    getBookComments: async ( _ ,{ bookId })=>await CommentModel.find({bookId:bookId})
   },
   // Mutation
   Mutation: {
     // ...mutation
 
-    async addBook(_, params, context) {
+    async addBook(_, {title, author, body, authorImage: authorImageType, image: bookImageType}, context) {
       const authorId = makeid();
-      console.log('aa')
+      // console.log('aa: ', {title, author, body, authorImageType, bookImageType})
       const book = new BookModel({
-        authorId,
-        ...params
+        title:  title,
+        author: author,
+        authorImageType: authorImageType.iType,
+        authorId: authorId,
+        body:   body,
+        bookImageType:  bookImageType.iType,
       });
-      console.log('book: ', book)
-      console.log('params: ', params)
-      const bookBase64Data = book.image.replace(/^data:image\/png;base64,/, "");
-      const authorBase64Data = book.authorImage.replace(/^data:image\/png;base64,/, "");
+      const ext = {
+        png: /^data:image\/png;base64,/,
+        jpeg: /^data:image\/jpeg;base64,/,
+        jpg: /^data:image\/jpg;base64,/
+      }
 
-      fs.writeFile(`./images/book-images/book-${book.id}.jpeg`, bookBase64Data, 'base64', function (err) {
+      console.log('book: ', book)
+      const bookBase64Data = bookImageType.file.replace(ext[bookImageType.iType], "");
+      const authorBase64Data = authorImageType.file.replace(ext[authorImageType.iType], "");
+
+      fs.writeFile(`../bookreview-frontend/public/images/book-images/book-${book.id}.${bookImageType.iType}`, bookBase64Data, 'base64', function (err) {
         if (err) {
           return console.log(err);
         }
         console.log("The Book file was saved!");
       });
 
-      fs.writeFile(`./images/author-images/author-${authorId}.jpeg`, authorBase64Data, 'base64', function (err) {
+      fs.writeFile(`../bookreview-frontend/public/images/author-images/author-${authorId}.${authorImageType.iType}`, authorBase64Data, 'base64', function (err) {
         if (err) {
           return console.log(err);
         }
         console.log("The Author file was saved!");
       });
 
-      // try {
-      //   await book.save();
-      //   return book;
-      // } catch (error) {
-      //   return error;
-      // }
+      try {
+        await book.save();
+        return book;
+      } catch (error) {
+        return error;
+      }
     },
     async addComment(_, { bookId, ...params }, context) {
       // const user = checkAuth(context)
       const comment = new CommentModel(params);
       comment.bookId = bookId;
-
       comment.save();
     },
     async updateBook(_, { bookId, ...params }, context) {
@@ -114,9 +123,17 @@ const resolvers = {
       BookModel.deleteOne({ _id: bookId })
         .then(() => {
           console.log("Data deleted");
+          return {
+            data: "200",
+            responseStatus: "book deleted"
+          }
         })
         .catch((error) => {
           console.log(error);
+          return {
+            data: `${error.code}`,
+            responseStatus: `${error.message}`
+          }
         });
     },
     async updateComment(_, { commentId, ...params }, context) {

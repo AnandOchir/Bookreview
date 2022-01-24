@@ -48,7 +48,9 @@ export const Nav = () => {
                                     <NavDropdown.Item href="#action/3.1">Name</NavDropdown.Item>
                                     <NavDropdown.Item href="#action/3.2">Email</NavDropdown.Item>
                                     <NavDropdown.Divider />
-                                    <NavDropdown.Item onClick={logOut} href="#action/3.4"><div style={{ color: 'red' }}>Log out</div></NavDropdown.Item>
+                                    <div className='log-out' onClick={logOut}>
+                                        <NavDropdown.Item onClick={logOut} href="#action/3.4"><div style={{ color: 'red' }}>Log out</div></NavDropdown.Item>
+                                    </div>
                                 </NavDropdown>
                             </div>
                             :

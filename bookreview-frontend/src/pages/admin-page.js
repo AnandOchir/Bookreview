@@ -2,15 +2,16 @@ import React, { useState, useRef } from 'react'
 import axios from 'axios'
 
 export const AdminPage = () => {
-    const [title, setTitle] = useState('a')
-    const [author, setAuthor] = useState('a')
-    const [body, setBody] = useState('a')
-    const [authorImage, setAuthorImage] = useState('')
+    const [title, setTitle] = useState('image test 1')
+    const [author, setAuthor] = useState('image test 1')
+    const [body, setBody] = useState('image test 1')
     const [file, setFile] = useState('');
     const [authorFile, setAuthorFile] = useState('');
     const [imageSrc, setImageSrc] = useState('');
     const [authorImageSrc, setAuthorImageSrc] = useState('');
     const inputFile = useRef(null), authorInputFile = useRef(null);
+    const [bookId, setBookId] = useState('');
+    const user = localStorage.getItem('user')
 
 
     const onFileChange = () => {
@@ -19,6 +20,7 @@ export const AdminPage = () => {
         console.log('setFile: ', inputFile.current.files[0])
         console.log('setImageSrc: ', URL.createObjectURL(inputFile.current.files[0]))
     }
+
     const onAuthFileChange = () => {
         setAuthorFile(authorInputFile.current.files[0]);
         setAuthorImageSrc(URL.createObjectURL(authorInputFile.current.files[0]))
@@ -94,6 +96,40 @@ export const AdminPage = () => {
         } else {
             alert('Please Select File first');
         }
+    }
+
+    const deleteBook = async () => {
+        if(bookId != '') {
+            const data = await axios.post('http://localhost:4000/', {
+                query: `mutation deleteBook($bookId: String) {
+                    deleteBook(bookId: $bookId) {
+                        data
+                        responseStatus
+                    }
+                }`,
+                variables: {
+                    bookId: bookId
+                }
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if(data.status == "200") {
+                console.log(`${bookId} book deleted`)
+                alert(`${bookId} book deleted`)
+            } else {
+                console.log(data.responseStatus)
+            }
+        }
+    }
+    if(!user || user.type != "admin") {
+        return (
+            <div>
+                <h1>You need to login admin user</h1>
+            </div>
+        )
     }
 
     return (

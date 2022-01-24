@@ -17,10 +17,20 @@ const UserModel = require("./models/user_schema");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const {
-  GraphQLUpload,
-} = require('graphql-upload');
+const fs = require('fs')
+
 const { storeFile } = require("./store-file");
+
+const makeid = () => {
+  var result = '';
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for (var i = 0; i < 19; i++) {
+    result += characters.charAt(Math.floor(Math.random() *
+      charactersLength));
+  }
+  return result;
+}
 
 mongoose.connect(
   "mongodb+srv://AnandOchir:123457@cluster0.mgbf9.mongodb.net/BooksCollection?retryWrites=true&w=majority",
@@ -37,7 +47,6 @@ connection.once("open", () => {
 });
 
 const resolvers = {
-  Upload: GraphQLUpload,
 
   // Query
   Query: {
@@ -47,25 +56,41 @@ const resolvers = {
   // Mutation
   Mutation: {
     // ...mutation
-    singleUpload: async (_, { file }) => {
-      console.log('back file: ', file)
 
-      const fileId = await storeFile(file).then(result => result);
-      // return true;
+    async addBook(_, {title, author, body, authorImage: authorImageType, image: bookImageType}, context) {
+      const authorId = makeid();
+      // console.log('aa: ', {title, author, body, authorImageType, bookImageType})
+      const book = new BookModel({
+        title:  title,
+        author: author,
+        authorImageType: authorImageType.iType,
+        authorId: authorId,
+        body:   body,
+        bookImageType:  bookImageType.iType,
+      });
+      const ext = {
+        png: /^data:image\/png;base64,/,
+        jpeg: /^data:image\/jpeg;base64,/,
+        jpg: /^data:image\/jpg;base64,/
+      }
 
-      return { 
-        filename: "filename", 
-        // mimetype: "mimetype",
-        // encoding: "encoding"
-      };
-    },
+      console.log('book: ', book)
+      const bookBase64Data = bookImageType.file.replace(ext[bookImageType.iType], "");
+      const authorBase64Data = authorImageType.file.replace(ext[authorImageType.iType], "");
 
+      fs.writeFile(`../bookreview-frontend/public/images/book-images/book-${book.id}.${bookImageType.iType}`, bookBase64Data, 'base64', function (err) {
+        if (err) {
+          return console.log(err);
+        }
+        console.log("The Book file was saved!");
+      });
 
-
-    async addBook(_, params, context) {
-      console.log('aaa: ', params)
-      // const user = checkAuth(context)
-      const book = new BookModel(params);
+      fs.writeFile(`../bookreview-frontend/public/images/author-images/author-${authorId}.${authorImageType.iType}`, authorBase64Data, 'base64', function (err) {
+        if (err) {
+          return console.log(err);
+        }
+        console.log("The Author file was saved!");
+      });
 
       try {
         await book.save();
@@ -98,9 +123,17 @@ const resolvers = {
       BookModel.deleteOne({ _id: bookId })
         .then(() => {
           console.log("Data deleted");
+          return {
+            data: "200",
+            responseStatus: "book deleted"
+          }
         })
         .catch((error) => {
           console.log(error);
+          return {
+            data: `${error.code}`,
+            responseStatus: `${error.message}`
+          }
         });
     },
     async updateComment(_, { commentId, ...params }, context) {
@@ -168,7 +201,7 @@ const resolvers = {
   },
 };
 
-const schema = makeExecutableSchema({typeDefs, resolvers})
+const schema = makeExecutableSchema({ typeDefs, resolvers })
 const schemaWithMiddleware = applyMiddleware(schema, permissions)
 
 const server = new ApolloServer({
@@ -178,7 +211,7 @@ const server = new ApolloServer({
   schemaWithMiddleware,
   context: (ctx) => {
     let token = ctx.req.headers.authorization
-    if(token ){
+    if (token) {
       token = token.replace('Bearer ', '')
       return {
         token

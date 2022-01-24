@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {GridFSBucket} = require('gridfs-stream');
+// const {GridFSBucket} = require('gridfs-stream');
 const fs = require('fs');
 
 //...

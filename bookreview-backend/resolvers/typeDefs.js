@@ -11,6 +11,7 @@ module.exports = gql`
     _id:String
     body:String
     user:String
+    date: String
   }
 
   type Image {
@@ -42,6 +43,7 @@ module.exports = gql`
 
   type Query {
     books: [Book]
+    getBookComments(bookId: String):[Comment]
   }
 
   type BookReturnType {
@@ -67,7 +69,7 @@ module.exports = gql`
   type Mutation {
     addBook(title: String, author: String, body: String, image: imageInputType, authorImage: imageInputType): BookReturnType
 
-    addComment(bookId: String, user: String, body: String): BookReturnType
+    addComment(bookId: String, user: String, body: String, date:String): BookReturnType
 
     updateBook(
       bookId: String

@@ -39,6 +39,7 @@ export const SignUpPage = () => {
                   localStorage.setItem('user', JSON.stringify(data.data.data.addUser))
             } else {
                   console.log('err: ', data)
+                  setErrorMessege(data.data.errors[0].message)
             }
       }
 
@@ -54,7 +55,7 @@ export const SignUpPage = () => {
                               <div className='Roboto mb-3 fs-30'>Signup to your account</div>
                               <div className='mb-3'>Username</div>
                               <div className='Signin-container mb-3'>
-                                    <input className='Signin-input ' placeholder={'John'} value={email} onChange={(e) => setUsername(e.target.value)} />
+                                    <input className='Signin-input ' placeholder={'John'} value={username} onChange={(e) => setUsername(e.target.value)} />
                               </div>
                               <div className='mb-3'>Email</div>
                               <div className='Signin-container mb-3'>

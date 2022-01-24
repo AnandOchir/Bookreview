@@ -52,6 +52,7 @@ const resolvers = {
   Query: {
     // ...query
     books: async () => await BookModel.find().populate("comments"),
+    getBookComments: async ( _ ,{ bookId })=>await CommentModel.find({bookId:bookId})
   },
   // Mutation
   Mutation: {
@@ -103,7 +104,6 @@ const resolvers = {
       // const user = checkAuth(context)
       const comment = new CommentModel(params);
       comment.bookId = bookId;
-
       comment.save();
     },
     async updateBook(_, { bookId, ...params }, context) {

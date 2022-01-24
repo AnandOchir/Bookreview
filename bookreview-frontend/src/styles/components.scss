@@ -33,6 +33,22 @@ input:focus {
   .info{
     display: none;
   }
+  .admin {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.admin {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.admin-page {
+  border: solid 3px #391F00  ;
+  padding: 20px;
+  margin-top: 20px;
 }
 // .title {
   //   padding-left: 370px;

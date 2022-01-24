@@ -30,9 +30,13 @@ export const HomePage = () => {
   const unique = (data) => {
     let uniqueArr = []
     data.forEach((c) => {
-      if (!uniqueArr.includes(c.author)) {
-        uniqueArr.push(c.author);
-      }
+        if (!uniqueArr.includes(c.author)) {
+          uniqueArr.push({
+            author: c.author,
+            id: c.authorId,
+            imageType: c.authorImageType
+          });
+        }
     });
 
     return uniqueArr;
@@ -45,6 +49,9 @@ export const HomePage = () => {
             _id
           title,
           author,
+          authorId,
+          authorImageType,
+          bookImageType,
           body
         }
       }`
@@ -188,25 +195,25 @@ export const HomePage = () => {
           </svg>
         </div>
       </div>
-    </div>
-    <div className='flex justify-center' style={{ fontSize: 25, marginTop: 20 }}>Books</div>
-    <Carousel props={books} />
-    <div className='flex flex-row justify-center' style={{ fontSize: 25, fontWeight: 900, marginBottom: 20 }}>
-      Authors
-    </div>
-    <div class="container">
-      <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
-        <ol class="carousel-indicators">
-          <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
-          <li data-target="#multi-item-example" data-slide-to="1"></li>
-        </ol>
-        <div class="carousel-inner" role="listbox">
-          <div class="carousel-item active flex" style={{ width: '100%', flexWrap: 'wrap' }}>
-            {
-              (unique(allBooks)).map((author, index) => {
-                return <CateCard author={author} src={null} from={() => executeScroll(author)} />
-              })
-            }
+      <div className='flex justify-center' style={{ fontSize: 25, marginTop: 20 }}>Books</div>
+      <Carousel props={books} />
+      <div className='flex flex-row justify-center' style={{ fontSize: 25, fontWeight: 900, marginBottom: 20 }}>
+        Authors
+      </div>
+      <div class="container">
+        <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
+            <li data-target="#multi-item-example" data-slide-to="1"></li>
+          </ol>
+          <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active flex" style={{ width: '100%', flexWrap: 'wrap' }}>
+              {
+                (unique(allBooks)).map((author, index) => {
+                  return <CateCard author={author.author} img={`/images/author-images/author-${author.id}.${author.imageType}`} src={null} from={() => executeScroll(author.author)} />
+                })
+              }
+            </div>
           </div>
         </div>
       </div>

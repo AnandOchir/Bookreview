@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react'
 import axios from 'axios'
-import FormData from 'form-data'
 
 export const AdminPage = () => {
     const [title, setTitle] = useState('a')
@@ -34,15 +33,45 @@ export const AdminPage = () => {
         reader.onerror = error => reject(error);
     });
 
+    const checkType = async file => {
+        const convertedFile = await toBase64(file);
+        const isImage = convertedFile.split('data:image/')[1]
+
+        const extensionType = ['jpeg', 'jpg', 'png'];
+
+        if(isImage) {
+            const type = isImage.split(';')[0]
+            extensionType.map((etype) => {
+                if(etype != type) {
+                    return false;
+                }
+            })
+            console.log('type: ', type)
+            return {
+                iType: type,
+                file: convertedFile
+            };          
+        } else {
+            console.log('its not image ')
+            return false;
+        }
+    }
+
     const addBook = async () => {
         if (file != '') {
-            const convertedBookFile = await toBase64(file);
-            const convertedAuthorFile = await toBase64(authorFile);
+            const convertedBookFile = await checkType(file);
+            const convertedAuthorFile = await checkType(authorFile);
 
+            if(!convertedAuthorFile || !convertedBookFile) {
+                alert('file not valid')
+                return false
+            }
+
+            console.log('aa: ', convertedBookFile)
             console.log('author: ', convertedAuthorFile)
 
             const data = await axios.post('http://localhost:4000/', {
-                query: `mutation addBook($title: String, $author: String, $body: String, $image: String, $authorImage: String) {
+                query: `mutation addBook($title: String, $author: String, $body: String, $image: imageInputType, $authorImage: imageInputType) {
                     addBook(title:$title, author:$author, body:$body, image: $image, authorImage: $authorImage) {
                         data
                         responseStatus
@@ -68,22 +97,43 @@ export const AdminPage = () => {
     }
 
     return (
-        <div className='flex justify-center'>
-            <div className='flex flex-col'>
-            <div>Addbook</div>
-            <div>            
-                <input value={body} placeholder={'body'} onChange={(e) => setBody(e.target.value)} />
+        <div className='admin'>
+            {/* <div id="myChart" width="400" height="400"></div> */}
+            <div className='flex justify-center admin-page'>
+                <div className='flex flex-col'>
+                    <div className='flex justify-center'>Addbook</div>
+                    <div>
+                        <div className='flex flex-col'>
+                            Book name:
+                            <input value={body} placeholder={'body'} onChange={(e) => setBody(e.target.value)} />
+                            Author name:
+                            <input value={author} placeholder={'body'} onChange={(e) => setAuthor(e.target.value)} />
+                        </div>
+                        <h1>author</h1>
+                        <input onChange={() => onAuthFileChange(0)} type='file' id='file' ref={authorInputFile} />
+                        <img src={authorImageSrc} style={{ width: '200px', height: '200px' }} />
 
-                <h1>author</h1>
-                <input onChange={() => onAuthFileChange(0)} type='file' id='file' ref={authorInputFile} />
-                <img src={authorImageSrc} style={{ width: '200px', height: '200px' }} />
-
-                <h1>book</h1>
-                <input onChange={() => onFileChange(0)} type='file' id='file' ref={inputFile} />
-                <img src={imageSrc} style={{ width: '200px', height: '200px' }} />
+                        <h1>book</h1>
+                        <input onChange={() => onFileChange(0)} type='file' id='file' ref={inputFile} />
+                        <img src={imageSrc} style={{ width: '200px', height: '200px' }} />
+                    </div>
+                    <button onClick={addBook} >AddBook</button>
+                </div>
             </div>
-            <button onClick={addBook} >AddBook</button>
-            </div>
+            {/* <div>
+                <Bar data={state}
+                    options={{
+                        title: {
+                            display: true,
+                            text: 'Average Rainfall per month',
+                            fontSize: 20
+                        },
+                        legend: {
+                            display: true,
+                            position: 'right'
+                        }
+                    }} />
+            </div> */}
         </div>
     );
 }

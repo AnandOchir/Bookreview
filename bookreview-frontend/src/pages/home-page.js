@@ -30,7 +30,11 @@ export const HomePage = () => {
     let uniqueArr = []
     data.forEach((c) => {
         if (!uniqueArr.includes(c.author)) {
-          uniqueArr.push(c.author);
+          uniqueArr.push({
+            author: c.author,
+            id: c.authorId,
+            imageType: c.authorImageType
+          });
         }
     });
 
@@ -44,6 +48,9 @@ export const HomePage = () => {
             _id
           title,
           author,
+          authorId,
+          authorImageType,
+          bookImageType,
           body
         }
       }`
@@ -207,7 +214,7 @@ export const HomePage = () => {
             <div class="carousel-item active flex" style={{ width: '100%', flexWrap: 'wrap' }}>
               {
                 (unique(allBooks)).map((author, index) => {
-                  return <CateCard author={author} src={null} from={() => executeScroll(author)} />
+                  return <CateCard author={author.author} img={`/images/author-images/author-${author.id}.${author.imageType}`} src={null} from={() => executeScroll(author.author)} />
                 })
               }
             </div>

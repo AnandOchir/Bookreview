@@ -36,7 +36,8 @@ export const LoginPage = () => {
             console.log('login success: ', data)
             localStorage.setItem('user', JSON.stringify(data.data.data.login))
         } else {
-            console.log('err: ', data)
+            console.log('err: ', data.data.errors[0].message)
+            setErrorMessege(data.data.errors[0].message)
         }
     }
 
@@ -57,7 +58,7 @@ export const LoginPage = () => {
                     <div className='Signin-container mb-4'>
                           <input className='Signin-input' placeholder={'*******'} value={pass} type='password' onChange={(e) => setPass(e.target.value)} />
                     </div>
-                    <div className='mb-4'>{errorMessege}</div>
+                    <div className='mb-4 c-error'>{errorMessege}</div>
                     <button onClick={Login} className='Signin-Button fs-24' >Login Now free </button>
               </div>
         </div>

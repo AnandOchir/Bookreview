@@ -39,6 +39,7 @@ export const SignUpPage = () => {
                   localStorage.setItem('user', JSON.stringify(data.data.data.addUser))
             } else {
                   console.log('err: ', data)
+                  setErrorMessege(data.data.errors[0].message)
             }
       }
 

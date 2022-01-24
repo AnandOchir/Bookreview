@@ -10,6 +10,8 @@ export const AdminPage = () => {
     const [imageSrc, setImageSrc] = useState('');
     const [authorImageSrc, setAuthorImageSrc] = useState('');
     const inputFile = useRef(null), authorInputFile = useRef(null);
+    const [bookId, setBookId] = useState('');
+    const user = localStorage.getItem('user')
 
 
     const onFileChange = () => {
@@ -18,6 +20,7 @@ export const AdminPage = () => {
         console.log('setFile: ', inputFile.current.files[0])
         console.log('setImageSrc: ', URL.createObjectURL(inputFile.current.files[0]))
     }
+
     const onAuthFileChange = () => {
         setAuthorFile(authorInputFile.current.files[0]);
         setAuthorImageSrc(URL.createObjectURL(authorInputFile.current.files[0]))
@@ -95,23 +98,65 @@ export const AdminPage = () => {
         }
     }
 
+    const deleteBook = async () => {
+        if(bookId != '') {
+            const data = await axios.post('http://localhost:4000/', {
+                query: `mutation deleteBook($bookId: String) {
+                    deleteBook(bookId: $bookId) {
+                        data
+                        responseStatus
+                    }
+                }`,
+                variables: {
+                    bookId: bookId
+                }
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if(data.status == "200") {
+                console.log(`${bookId} book deleted`)
+                alert(`${bookId} book deleted`)
+            } else {
+                console.log(data.responseStatus)
+            }
+        }
+    }
+    if(!user || user.type != "admin") {
+        return (
+            <div>
+                <h1>You need to login admin user</h1>
+            </div>
+        )
+    }
+
     return (
         <div>
-            <div>Addbook</div>
             <div>
-                <input value={title} placeholder={'title'} onChange={(e) => setTitle(e.target.value)} />
-                <input value={author} placeholder={'author'} onChange={(e) => setAuthor(e.target.value)} />
-                <input value={body} placeholder={'body'} onChange={(e) => setBody(e.target.value)} />
+                <div>Addbook</div>
+                <div>
+                    <input value={title} placeholder={'title'} onChange={(e) => setTitle(e.target.value)} />
+                    <input value={author} placeholder={'author'} onChange={(e) => setAuthor(e.target.value)} />
+                    <input value={body} placeholder={'body'} onChange={(e) => setBody(e.target.value)} />
 
-                <h1>author</h1>
-                <input onChange={() => onAuthFileChange(0)} type='file' id='file' ref={authorInputFile} />
-                <img src={authorImageSrc} style={{ width: '200px', height: '200px' }} />
+                    <h1>author</h1>
+                    <input onChange={() => onAuthFileChange(0)} type='file' id='file' ref={authorInputFile} />
+                    <img src={authorImageSrc} style={{ width: '200px', height: '200px' }} />
 
-                <h1>book</h1>
-                <input onChange={() => onFileChange(0)} type='file' id='file' ref={inputFile} />
-                <img src={imageSrc} style={{ width: '200px', height: '200px' }} />
+                    <h1>book</h1>
+                    <input onChange={() => onFileChange(0)} type='file' id='file' ref={inputFile} />
+                    <img src={imageSrc} style={{ width: '200px', height: '200px' }} />
+                </div>
+                <button onClick={addBook} >AddBook</button>
             </div>
-            <button onClick={addBook} >AddBook</button>
+            <div>
+                <h1>Delete Book</h1>
+                <input value={bookId} placeholder={'book id'} onChange={(e) => setBookId(e.target.value)} />
+
+                <button onClick={deleteBook} >Delete Book</button>
+            </div>
         </div>
     );
 }

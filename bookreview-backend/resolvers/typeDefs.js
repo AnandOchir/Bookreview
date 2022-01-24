@@ -13,13 +13,21 @@ module.exports = gql`
     user:String
   }
 
+  type Image {
+    iType: String
+    file: String
+  }
+
   type Book {
     _id: String
     title: String
     author: String
-    authorImage: String
+    authorId: String
+    authorImage: Image
+    authorImageType: String
     body: String
-    image: String
+    image: Image
+    bookImageType: String
     comments: [Comment]
   }
 
@@ -51,8 +59,13 @@ module.exports = gql`
     responseStatus: String
   }
 
+  input imageInputType {
+    iType: String
+    file: String
+  }
+
   type Mutation {
-    addBook(title: String, author: String, body: String, image: String, authorImage: String): BookReturnType
+    addBook(title: String, author: String, body: String, image: imageInputType, authorImage: imageInputType): BookReturnType
 
     addComment(bookId: String, user: String, body: String): BookReturnType
 

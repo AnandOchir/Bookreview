@@ -133,30 +133,43 @@ export const AdminPage = () => {
     }
 
     return (
-        <div>
-            <div>
-                <div>Addbook</div>
-                <div>
-                    <input value={title} placeholder={'title'} onChange={(e) => setTitle(e.target.value)} />
-                    <input value={author} placeholder={'author'} onChange={(e) => setAuthor(e.target.value)} />
-                    <input value={body} placeholder={'body'} onChange={(e) => setBody(e.target.value)} />
+        <div className='admin'>
+            {/* <div id="myChart" width="400" height="400"></div> */}
+            <div className='flex justify-center admin-page'>
+                <div className='flex flex-col'>
+                    <div className='flex justify-center'>Addbook</div>
+                    <div>
+                        <div className='flex flex-col'>
+                            Book name:
+                            <input value={body} placeholder={'body'} onChange={(e) => setBody(e.target.value)} />
+                            Author name:
+                            <input value={author} placeholder={'body'} onChange={(e) => setAuthor(e.target.value)} />
+                        </div>
+                        <h1>author</h1>
+                        <input onChange={() => onAuthFileChange(0)} type='file' id='file' ref={authorInputFile} />
+                        <img src={authorImageSrc} style={{ width: '200px', height: '200px' }} />
 
-                    <h1>author</h1>
-                    <input onChange={() => onAuthFileChange(0)} type='file' id='file' ref={authorInputFile} />
-                    <img src={authorImageSrc} style={{ width: '200px', height: '200px' }} />
-
-                    <h1>book</h1>
-                    <input onChange={() => onFileChange(0)} type='file' id='file' ref={inputFile} />
-                    <img src={imageSrc} style={{ width: '200px', height: '200px' }} />
+                        <h1>book</h1>
+                        <input onChange={() => onFileChange(0)} type='file' id='file' ref={inputFile} />
+                        <img src={imageSrc} style={{ width: '200px', height: '200px' }} />
+                    </div>
+                    <button onClick={addBook} >AddBook</button>
                 </div>
-                <button onClick={addBook} >AddBook</button>
             </div>
-            <div>
-                <h1>Delete Book</h1>
-                <input value={bookId} placeholder={'book id'} onChange={(e) => setBookId(e.target.value)} />
-
-                <button onClick={deleteBook} >Delete Book</button>
-            </div>
+            {/* <div>
+                <Bar data={state}
+                    options={{
+                        title: {
+                            display: true,
+                            text: 'Average Rainfall per month',
+                            fontSize: 20
+                        },
+                        legend: {
+                            display: true,
+                            position: 'right'
+                        }
+                    }} />
+            </div> */}
         </div>
     );
 }

@@ -83,7 +83,7 @@ export const BookDetail = () => {
   };
 
   return (
-    <Layout>
+    <div>
       <div className="full-screen">
         <div className="Dynamic-Column">
           <div className="Book-review-image-container flex-center mt-5">
@@ -140,6 +140,10 @@ export const BookDetail = () => {
           </div>
         )}
       </div>
-    </Layout>
+      <div className='Comments-box pa-5'>
+        <div className='line mb-3' style={{ width: '95%' }} />
+        COMMENTS:{comments.map((comment) => CommentCard(comment))}
+      </div>
+    </div>
   );
 };

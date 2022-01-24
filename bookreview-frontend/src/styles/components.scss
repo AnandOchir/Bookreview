@@ -7,6 +7,7 @@ body > #root {
 
 .dropdown {
   color: #241400 !important;
+  z-index: 1001;
 }
 
 .navpad {
@@ -33,6 +34,26 @@ input:focus {
   .info{
     display: none;
   }
+  .admin {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.admin {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.admin-page {
+  border: solid 3px #391F00  ;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.log-out{ 
+  z-index: 1;
 }
 // .title {
   //   padding-left: 370px;

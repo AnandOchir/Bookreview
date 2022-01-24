@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Layout } from '../components';
-import ReactCarousel, { AFTER, CENTER, BEFORE } from "react-carousel-animated";
+import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
+import ReactCarousel, { AFTER, BEFORE, CENTER } from "react-carousel-animated";
 import "react-carousel-animated/dist/style.css";
+import { useLocation } from 'react-router-dom';
+import { Layout } from '../components';
 import { Carousel } from '../components/others/carousel';
-import { ScrollDemo } from '../components/others/scroll';
 import { CateCard } from '../components/others/catecard';
-import axios from 'axios'
-
 export const HomePage = () => {
+  const { state } = useLocation();
   const myRef = useRef(null);
   const [allBooks, setAllBooks] = useState(null)
   const [books, setBooks] = useState(null)
@@ -52,9 +52,13 @@ export const HomePage = () => {
         'Content-Type': 'application/json'
       }
     }).then((indx) => {
-
       setAllBooks(indx.data.data.books)
       setBooks(indx.data.data.books)
+
+      if(state.author){
+        setAuthorSearchValue(state.author)
+        myRef.current.scrollIntoView()
+      }
     })
 
   }, [])
@@ -79,6 +83,8 @@ export const HomePage = () => {
           return true;
         }
       }))
+    } else {
+      console.log('no book')
     }
 
   }, [authorSearchValue])
